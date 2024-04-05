@@ -77,7 +77,8 @@ RUN pip3 install --upgrade pip
 RUN pip3 install --pre torch-mlir torchvision \
                  -f https://github.com/llvm/torch-mlir-release/releases/expanded_assets/dev-wheels \
                  --extra-index-url https://download.pytorch.org/whl/nightly/cpu
-RUN pip3 install onnx black toml GitPython colorlog cocotb[bus]==1.8.0 \
+
+RUN pip3 install -v onnxruntime-gpu onnx black toml GitPython colorlog cocotb[bus]==1.8.0 \
                  pytest pytorch-lightning transformers toml \
                  timm pytorch-nlp datasets ipython ipdb \
                  sentencepiece einops deepspeed pybind11 \
@@ -88,8 +89,13 @@ RUN pip3 install onnx black toml GitPython colorlog cocotb[bus]==1.8.0 \
                  ghp-import optimum pytest-profiling myst_parser \
                  pytest-cov pytest-xdist pytest-sugar pytest-html \
                  lightning wandb bitarray bitstring \
+                 torch-tensorRT tensorRT absl-py sphinx-glpi-theme\
+                 onnxconverter-common prettytable pyyaml pynvml cuda-python \
     && pip install -U Pillow \
     && pip install mpmath==1.3.0 
+    
+# Install PyTorch-Quantization
+RUN pip install --no-cache-dir --index-url https://pypi.nvidia.com pytorch-quantization
 
 # Add environment variables
 ARG VHLS_PATH
